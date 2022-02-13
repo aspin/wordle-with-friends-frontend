@@ -1,4 +1,5 @@
-# React Webpack Typescript Starter
+# Wordle With Friends Frontend
+Generated from https://github.com/vikpe/react-webpack-typescript-starter
 > Minimal starter with hot module replacement (HMR) for rapid development.
 
 * **[React](https://facebook.github.io/react/)** (17.x)
