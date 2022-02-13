@@ -2,6 +2,7 @@ import * as React from "react";
 import { useAppSelector } from "../../hooks";
 import { Stack } from "@mui/material";
 import Word from "../../components/word/Word";
+import { unusedLetters } from "./util";
 
 export default function Game() {
   const gameState = useAppSelector((state) => state.game);
@@ -26,6 +27,7 @@ export default function Game() {
       <Stack spacing={2}>
         {[...Array(gameState.params.maxGuesses)].map(row)}
       </Stack>
+      unused letters: {unusedLetters(gameState.previousGuesses)}
     </div>
   );
 }

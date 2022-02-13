@@ -13,11 +13,15 @@ export default function Word(props: WordProps) {
     return (
       <Letter
         enabled={props.enabled}
-        value={props.value[i]}
+        value={props.value[i] || ""}
         valid={Validity.Unknown}
       />
     );
   }
 
-  return <Stack direction="row">{[...Array(props.width)].map(letter)}</Stack>;
+  return (
+    <Stack direction="row" spacing={2}>
+      {[...Array(props.width)].map(letter)}
+    </Stack>
+  );
 }

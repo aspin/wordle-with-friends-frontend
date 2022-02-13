@@ -14,5 +14,7 @@ export enum Validity {
 }
 
 export default function Letter(props: LetterProps) {
-  return <TextField value={props.value} disabled={!props.enabled} />;
+  return (
+    <TextField value={props.value.toUpperCase()} disabled={!props.enabled} />
+  );
 }
