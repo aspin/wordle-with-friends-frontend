@@ -17,7 +17,7 @@ const initialState: GameSlice = {
     wordLength: 6,
   },
   currentLetters: [],
-  previousGuesses: [],
+  previousGuesses: ["arise", "piggy"],
 };
 
 export const gameSlice = createSlice({
