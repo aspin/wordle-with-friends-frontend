@@ -2,16 +2,14 @@ import * as React from "react";
 import { hot } from "react-hot-loader";
 import "./../assets/scss/App.scss";
 import Game from "./../features/game/Game";
-
-const reactLogo = require("./../assets/img/react_logo.svg");
+import { Container } from "@mui/material";
 
 class App extends React.Component<Record<string, unknown>, undefined> {
   public render() {
     return (
-      <div className="app">
-        <h1>The Game</h1>
+      <Container fixed>
         <Game />
-      </div>
+      </Container>
     );
   }
 }

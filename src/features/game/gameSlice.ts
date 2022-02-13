@@ -13,8 +13,8 @@ export interface GameParameters {
 
 const initialState: GameSlice = {
   params: {
-    maxGuesses: 6,
-    wordLength: 6,
+    maxGuesses: 5,
+    wordLength: 5,
   },
   currentLetters: [],
   previousGuesses: ["arise", "piggy"],

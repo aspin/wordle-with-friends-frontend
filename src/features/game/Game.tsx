@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useAppSelector } from "../../hooks";
-import { Stack, TextField } from "@mui/material";
+import { Stack } from "@mui/material";
 import Word from "../../components/word/Word";
 
 export default function Game() {
@@ -16,16 +16,13 @@ export default function Game() {
       <Word
         enabled={gameState.previousGuesses.length == i}
         value={previousGuess}
+        width={gameState.params.wordLength}
       />
     );
   }
 
   return (
     <div>
-      <h2>
-        guesses {gameState.params.maxGuesses} length{" "}
-        {gameState.params.wordLength}
-      </h2>
       <Stack spacing={2}>
         {[...Array(gameState.params.maxGuesses)].map(row)}
       </Stack>
