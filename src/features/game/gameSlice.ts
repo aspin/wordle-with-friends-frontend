@@ -11,12 +11,17 @@ export interface GameParameters {
   wordLength: number;
 }
 
+export interface GameGuessAction {
+  index: number;
+  letter: string;
+}
+
 const initialState: GameSlice = {
   params: {
     maxGuesses: 5,
     wordLength: 5,
   },
-  currentLetters: [],
+  currentLetters: [" ", " ", " ", " ", " "],
   previousGuesses: ["arise", "piggy"],
 };
 
@@ -27,8 +32,20 @@ export const gameSlice = createSlice({
     setParams: (state, action: PayloadAction<GameParameters>) => {
       state.params = action.payload;
     },
-    addLetter: (state, action: PayloadAction<string>) => {
-      state.currentLetters.push(action.payload[0]);
+    setLetter: (state, action: PayloadAction<GameGuessAction>) => {
+      if (state.currentLetters.length != state.params.wordLength) {
+        state.currentLetters = [...Array(state.params.wordLength)].map(
+          () => " ",
+        );
+      }
+
+      // space string represents no letter in the spot
+      if (action.payload.letter.length == 0) {
+        state.currentLetters[action.payload.index] = " ";
+      } else {
+        state.currentLetters[action.payload.index] =
+          action.payload.letter.charAt(action.payload.letter.length - 1);
+      }
     },
     deleteLetter: (state) => {
       if (state.currentLetters.length > 0) {
@@ -48,7 +65,7 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setParams, addLetter, deleteLetter, submitGuess } =
+export const { setParams, setLetter, deleteLetter, submitGuess } =
   gameSlice.actions;
 
 export default gameSlice.reducer;
