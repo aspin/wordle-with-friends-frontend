@@ -4,10 +4,13 @@ import { Stack } from "@mui/material";
 import Word from "../../components/word/Word";
 import { emptyLetters, letters, unusedLetters } from "./util";
 import { setLetter } from "./gameSlice";
+import { useGetGameParamsQuery } from "../../services/session";
 
 export default function Game() {
   const gameState = useAppSelector((state) => state.game);
   const dispatch = useAppDispatch();
+
+  useGetGameParamsQuery("foo");
 
   function row(_value: undefined, i: number) {
     let text = emptyLetters(gameState.params.wordLength);

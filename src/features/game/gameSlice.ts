@@ -1,14 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { GameParameters } from "../../types/game";
 
 export interface GameSlice {
   params: GameParameters;
   currentLetters: string[];
   previousGuesses: string[];
-}
-
-export interface GameParameters {
-  maxGuesses: number;
-  wordLength: number;
 }
 
 export interface GameGuessAction {
