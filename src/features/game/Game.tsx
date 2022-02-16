@@ -4,13 +4,13 @@ import { Stack } from "@mui/material";
 import Word from "../../components/word/Word";
 import { emptyLetters, letters, unusedLetters } from "./util";
 import { setLetter } from "./gameSlice";
-import { useGetGameParamsQuery } from "../../services/session";
+import { useNewSessionQuery } from "../../services/session";
 
 export default function Game() {
   const gameState = useAppSelector((state) => state.game);
   const dispatch = useAppDispatch();
 
-  useGetGameParamsQuery("foo");
+  const { data, isLoading } = useNewSessionQuery()
 
   function row(_value: undefined, i: number) {
     let text = emptyLetters(gameState.params.wordLength);
@@ -33,8 +33,14 @@ export default function Game() {
     );
   }
 
+  let header = <h1>loading...</h1>
+  if (!isLoading) {
+    header = <h1>SessionID: {data.id}, Players: {data.players}</h1>
+  }
+
   return (
     <div>
+      {header}
       <Stack spacing={2}>
         {[...Array(gameState.params.maxGuesses)].map(row)}
       </Stack>
