@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getWs } from "../../services/session";
 import { GameParameters } from "../../types/game";
 
 export interface GameSlice {
@@ -45,24 +46,39 @@ export const gameSlice = createSlice({
       }
     },
     setLetter: (state, action: PayloadAction<GameGuessAction>) => {
-      if (state.currentLetters.length != state.params.wordLength) {
-        state.currentLetters = [...Array(state.params.wordLength)].map(
-          () => " ",
-        );
-      }
+      getWs().send(JSON.stringify({
+        action: "ADD_LETTER",
+        params: action.payload.letter
+      }))
+      // if (state.currentLetters.length != state.params.wordLength) {
+      //   state.currentLetters = [...Array(state.params.wordLength)].map(
+      //     () => " ",
+      //   );
+      // }
+
+      let newLetter
 
       // space string represents no letter in the spot
       if (action.payload.letter.length == 0) {
-        state.currentLetters[action.payload.index] = " ";
+        // state.currentLetters[action.payload.index] = " ";
+        newLetter = " ";
       } else {
-        state.currentLetters[action.payload.index] =
-          action.payload.letter.charAt(action.payload.letter.length - 1);
+        // state.currentLetters[action.payload.index] =
+        //   action.payload.letter.charAt(action.payload.letter.length - 1);
+        newLetter = action.payload.letter.charAt(action.payload.letter.length - 1);
       }
+      getWs().send(JSON.stringify({
+        action: "ADD_LETTER",
+        params: newLetter
+      }))
     },
     deleteLetter: (state) => {
-      if (state.currentLetters.length > 0) {
-        state.currentLetters.pop();
-      }
+      getWs().send(JSON.stringify({
+        action: "DELETE_LETTER",
+      }))
+      // if (state.currentLetters.length > 0) {
+      //   state.currentLetters.pop();
+      // }
     },
     submitGuess: (state) => {
       if (
