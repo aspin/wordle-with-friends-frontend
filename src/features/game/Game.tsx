@@ -30,9 +30,7 @@ export default function Game(props: GameProps) {
         value={text}
         width={gameState.params.wordLength}
         onChange={(index, letter) => {
-          gameWs.ws.send(
-            JSON.stringify({ action: "ADD_LETTER", params: letter }),
-          );
+          gameWs.actions.sendAddLetter(letter);
         }}
       />
     );

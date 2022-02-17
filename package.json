@@ -72,6 +72,7 @@
     "@emotion/styled": "11.6.0",
     "@mui/material": "5.4.1",
     "@reduxjs/toolkit": "1.7.2",
+    "lodash": "4.17.21",
     "react-redux": "7.2.6"
   }
 }
