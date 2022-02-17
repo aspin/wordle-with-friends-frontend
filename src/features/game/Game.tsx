@@ -1,16 +1,19 @@
 import * as React from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useContext } from "react";
+import { useAppSelector } from "../../hooks";
 import { Stack } from "@mui/material";
 import Word from "../../components/word/Word";
 import { emptyLetters, letters, unusedLetters } from "./util";
-import { setLetter } from "./gameSlice";
-import { useNewSessionQuery } from "../../services/session";
+import { GameWsContext } from "../../services/ws";
 
-export default function Game() {
+interface GameProps {
+  sessionId: string;
+  players: string[];
+}
+
+export default function Game(props: GameProps) {
   const gameState = useAppSelector((state) => state.game);
-  const dispatch = useAppDispatch();
-
-  const { data, isLoading } = useNewSessionQuery()
+  const gameWs = useContext(GameWsContext);
 
   function row(_value: undefined, i: number) {
     let text = emptyLetters(gameState.params.wordLength);
@@ -27,20 +30,19 @@ export default function Game() {
         value={text}
         width={gameState.params.wordLength}
         onChange={(index, letter) => {
-          dispatch(setLetter({ index, letter }));
+          gameWs.ws.send(
+            JSON.stringify({ action: "ADD_LETTER", params: letter }),
+          );
         }}
       />
     );
   }
 
-  let header = <h1>loading...</h1>
-  if (!isLoading) {
-    header = <h1>SessionID: {data.id}, Players: {data.players}</h1>
-  }
-
   return (
     <div>
-      {header}
+      <h1>
+        SessionID: {props.sessionId}, Players: {props.players}
+      </h1>
       <Stack spacing={2}>
         {[...Array(gameState.params.maxGuesses)].map(row)}
       </Stack>
