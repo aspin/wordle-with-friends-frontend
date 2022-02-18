@@ -12,10 +12,17 @@ interface WordProps {
 export default function Word(props: WordProps) {
   function letter(_value: undefined, i: number) {
     // set focus on the first enabled empty spot
-    const focus =
+    let focus =
       props.enabled &&
       props.value[i] == " " &&
       (i == 0 || props.value[i - 1] != " ");
+
+    // if last letter and is filled (e.g. all letters filled), keep focused
+    if (i == props.value.length - 1 && props.value[i] != " ") {
+      focus = props.enabled;
+    }
+
+    // TODO: currently requires two backspaces for the last letter because of focus rules
 
     return (
       <Letter

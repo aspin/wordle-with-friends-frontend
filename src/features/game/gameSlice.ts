@@ -5,6 +5,7 @@ export interface GameSlice {
   params: GameParameters;
   currentLetters: string[];
   previousGuesses: string[];
+  players: string[];
 }
 
 export interface GameGuessAction {
@@ -23,6 +24,7 @@ const initialState: GameSlice = {
   },
   currentLetters: [" ", " ", " ", " ", " "],
   previousGuesses: ["arise", "piggy"],
+  players: [],
 };
 
 export const gameSlice = createSlice({
@@ -42,19 +44,17 @@ export const gameSlice = createSlice({
         }
       }
     },
-    submitGuess: (state) => {
-      if (
-        state.currentLetters.length == state.params.wordLength &&
-        state.previousGuesses.length < state.params.maxGuesses
-      ) {
-        const word = state.currentLetters.join();
-        state.previousGuesses.push(word);
-        state.currentLetters = [];
-      }
+    setPlayers: (state, action: PayloadAction<string[]>) => {
+      state.players = action.payload;
+    },
+    submitGuess: (state, action: PayloadAction<string>) => {
+      state.previousGuesses.push(action.payload);
+      state.currentLetters = [];
     },
   },
 });
 
-export const { setParams, setWord, submitGuess } = gameSlice.actions;
+export const { setParams, setWord, setPlayers, submitGuess } =
+  gameSlice.actions;
 
 export default gameSlice.reducer;

@@ -23,10 +23,10 @@ export default function GameWsProvider(props: GameWsProps) {
 
   if (!ws) {
     ws = new WebSocket(`${wsPath}/session/${props.sessionId}`);
-    ws.addEventListener("message", (event) => {
+    ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       handle(dispatch, data);
-    });
+    };
   }
 
   const gameWs: GameWsContextInterface = {
@@ -40,4 +40,3 @@ export default function GameWsProvider(props: GameWsProps) {
     </GameWsContext.Provider>
   );
 }
-

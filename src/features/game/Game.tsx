@@ -8,7 +8,6 @@ import { GameWsContext } from "../../services/ws";
 
 interface GameProps {
   sessionId: string;
-  players: string[];
 }
 
 export default function Game(props: GameProps) {
@@ -48,7 +47,7 @@ export default function Game(props: GameProps) {
   return (
     <div>
       <h1>
-        SessionID: {props.sessionId}, Players: {props.players}
+        SessionID: {props.sessionId}, Players: {gameState.players}
       </h1>
       <Stack spacing={2}>
         {[...Array(gameState.params.maxGuesses)].map(row)}
