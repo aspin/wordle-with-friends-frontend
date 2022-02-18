@@ -1,7 +1,7 @@
 import * as React from "react";
-import { useContext } from "react";
+import { ChangeEvent, useContext } from "react";
 import { useAppSelector } from "../../hooks";
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import Word from "../../components/word/Word";
 import { emptyLetters, letters, unusedLetters } from "./util";
 import { GameWsContext } from "../../services/ws";
@@ -44,14 +44,28 @@ export default function Game(props: GameProps) {
     );
   }
 
+  function submitGuess(e: ChangeEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    // double check this? arent they all empty strings?
+    if (gameState.currentLetters.length == gameState.params.wordLength) {
+      gameWs.actions.submitGuess();
+    }
+  }
+
   return (
     <div>
       <h1>
         SessionID: {props.sessionId}, Players: {gameState.players}
       </h1>
-      <Stack spacing={2}>
-        {[...Array(gameState.params.maxGuesses)].map(row)}
-      </Stack>
+      <form onSubmit={submitGuess}>
+        <Stack spacing={2}>
+          {[...Array(gameState.params.maxGuesses)].map(row)}
+        </Stack>
+        <Button type="submit" variant="outlined">
+          Submit Guess
+        </Button>
+      </form>
       unused letters: {unusedLetters(gameState.previousGuesses)}
     </div>
   );

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { GameParameters } from "../../types/game";
+import {emptyLetters} from "./util";
 
 export interface GameSlice {
   params: GameParameters;
@@ -49,7 +50,7 @@ export const gameSlice = createSlice({
     },
     submitGuess: (state, action: PayloadAction<string>) => {
       state.previousGuesses.push(action.payload);
-      state.currentLetters = [];
+      state.currentLetters = [...Array(state.params.wordLength)].map(() => " ");
     },
   },
 });

@@ -53,6 +53,7 @@ export function unusedLetters(words: string[]): string[] {
   return Object.keys(remaining);
 }
 
+// TODO: review this usage (should be " "?)
 export function emptyLetters(len: number): string[] {
   return [...Array(len)].map(() => "");
 }
