@@ -29,8 +29,17 @@ export default function Game(props: GameProps) {
         enabled={gameState.previousGuesses.length == i}
         value={text}
         width={gameState.params.wordLength}
-        onChange={(index, letter) => {
-          gameWs.actions.sendAddLetter(letter);
+        onChange={(letter) => {
+          if (letter.length == 0) {
+            gameWs.actions.sendDeleteLetter();
+          } else if (letter.length == 1) {
+            gameWs.actions.sendAddLetter(letter);
+          } else {
+            console.error(
+              "unexpected word change, expected length 0 or 1 but got",
+              letter,
+            );
+          }
         }}
       />
     );

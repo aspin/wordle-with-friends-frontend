@@ -6,7 +6,7 @@ interface WordProps {
   enabled: boolean;
   value: string[];
   width: number;
-  onChange: (i: number, value: string) => void;
+  onChange: (letter: string) => void;
 }
 
 export default function Word(props: WordProps) {
@@ -20,11 +20,11 @@ export default function Word(props: WordProps) {
     return (
       <Letter
         key={i}
-        enabled={props.enabled}
+        enabled={focus}
         value={props.value[i]}
         valid={Validity.Unknown}
         focus={focus}
-        onChange={(e) => props.onChange(i, e.target.value)}
+        onChange={(letter) => props.onChange(letter)}
       />
     );
   }
