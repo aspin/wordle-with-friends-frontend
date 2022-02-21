@@ -27,11 +27,6 @@ const alphabet = [
   "Z",
 ];
 
-// " " is used to signify
-export function isEmpty(letter: string): boolean {
-  return letter == "" || letter == " ";
-}
-
 export function unusedLetters(words: string[]): string[] {
   const remaining = {};
   for (const letter of alphabet) {
@@ -53,11 +48,18 @@ export function unusedLetters(words: string[]): string[] {
   return Object.keys(remaining);
 }
 
-// TODO: review this usage (should be " "?)
 export function emptyLetters(len: number): string[] {
-  return [...Array(len)].map(() => "");
+  return [...Array(len)].map(() => " ");
 }
 
-export function letters(s: string): string[] {
+export function splitLetters(s: string): string[] {
   return s.split("");
+}
+
+export function lastLetter(s: string): string {
+  if (s.length == 0) {
+    return "";
+  } else {
+    return s.charAt(s.length - 1);
+  }
 }

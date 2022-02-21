@@ -4,6 +4,7 @@ export interface WsActionsInterface {
   sendAddLetter: (string) => void;
   sendDeleteLetter: () => void;
   submitGuess: () => void;
+  disconnect: () => void;
 }
 
 function sendAddLetter(ws: WebSocket, letter: string) {
@@ -30,6 +31,14 @@ function submitGuess(ws: WebSocket) {
   sendEvent(ws, event);
 }
 
+function disconnect(ws: WebSocket) {
+  if (!ws) {
+    return;
+  }
+
+  ws.close();
+}
+
 function sendEvent(ws: WebSocket, e: object) {
   // probably a good idea, but not strictly necessary?
   // if (ws.readyState != WebSocket.OPEN) {
@@ -43,5 +52,6 @@ export function generateActions(ws: WebSocket): WsActionsInterface {
     sendAddLetter: _.partial(sendAddLetter, ws),
     sendDeleteLetter: _.partial(sendDeleteLetter, ws),
     submitGuess: _.partial(submitGuess, ws),
+    disconnect: _.partial(disconnect, ws),
   };
 }

@@ -1,10 +1,11 @@
 import { AppDispatch } from "../store";
 import {
+  setCurrentWord,
   setParams,
   setPlayers,
-  setWord,
   submitGuess,
 } from "../features/game/gameSlice";
+import { splitLetters } from "../features/game/util";
 
 function handle(dispatch: AppDispatch, data: object) {
   // TODO: should really determine game params vs event better...
@@ -38,12 +39,12 @@ function handleEvent(dispatch: AppDispatch, data: GameEvent) {
   let letters;
   switch (data.event) {
     case "LETTER_ADDED":
-      letters = (data.params as string).split("");
-      dispatch(setWord({ letters }));
+      letters = splitLetters(data.params as string);
+      dispatch(setCurrentWord({ letters }));
       break;
     case "LETTER_DELETED":
-      letters = (data.params as string).split("");
-      dispatch(setWord({ letters }));
+      letters = splitLetters(data.params as string);
+      dispatch(setCurrentWord({ letters }));
       break;
     case "PLAYER_JOINED":
       dispatch(setPlayers(data.params as string[]));

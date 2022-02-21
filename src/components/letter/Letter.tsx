@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ChangeEvent, useEffect } from "react";
 import { TextField } from "@mui/material";
+import { lastLetter } from "../../features/game/util";
 
 interface LetterProps {
   value: string;
@@ -18,12 +19,7 @@ export enum Validity {
 
 export default function Letter(props: LetterProps) {
   function onChange(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
-    const value = e.target.value;
-    if (value.length == 0) {
-      props.onChange("");
-    } else {
-      props.onChange(value.charAt(value.length - 1));
-    }
+    props.onChange(lastLetter(e.target.value));
   }
 
   let inputRef;

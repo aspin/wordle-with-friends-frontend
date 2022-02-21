@@ -9,10 +9,6 @@ import { useNewSessionQuery } from "../services/session";
 function App() {
   const { data, isLoading } = useNewSessionQuery();
 
-  // const isLoading = false;
-  // const dataId = "484421c8-649a-4f18-9222-fb10368c1b2a";
-  // const dataPlayers = [];
-  //
   let content;
   if (isLoading) {
     content = <h1>loading...</h1>;
@@ -21,9 +17,6 @@ function App() {
       <GameWsProvider sessionId={data.id}>
         <Game sessionId={data.id} />
       </GameWsProvider>
-      // <GameWsProvider sessionId={dataId}>
-      //   <Game sessionId={dataId} players={dataPlayers} />
-      // </GameWsProvider>
     );
   }
 

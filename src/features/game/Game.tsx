@@ -1,9 +1,9 @@
 import * as React from "react";
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent, useContext, useEffect } from "react";
 import { useAppSelector } from "../../hooks";
 import { Button, Stack } from "@mui/material";
 import Word from "../../components/word/Word";
-import { emptyLetters, letters, unusedLetters } from "./util";
+import { emptyLetters, splitLetters, unusedLetters } from "./util";
 import { GameWsContext } from "../../services/ws";
 
 interface GameProps {
@@ -14,10 +14,17 @@ export default function Game(props: GameProps) {
   const gameState = useAppSelector((state) => state.game);
   const gameWs = useContext(GameWsContext);
 
+  // TODO: need to test this
+  useEffect(() => {
+    return function () {
+      gameWs.actions.disconnect();
+    };
+  });
+
   function row(_value: undefined, i: number) {
     let text = emptyLetters(gameState.params.wordLength);
     if (i < gameState.previousGuesses.length) {
-      text = letters(gameState.previousGuesses[i]);
+      text = splitLetters(gameState.previousGuesses[i]);
     } else if (i == gameState.previousGuesses.length) {
       text = gameState.currentLetters;
     }
@@ -28,15 +35,15 @@ export default function Game(props: GameProps) {
         enabled={gameState.previousGuesses.length == i}
         value={text}
         width={gameState.params.wordLength}
-        onChange={(letter) => {
-          if (letter.length == 0) {
+        onChange={(letters) => {
+          if (letters.length == 0) {
             gameWs.actions.sendDeleteLetter();
-          } else if (letter.length == 1) {
-            gameWs.actions.sendAddLetter(letter);
+          } else if (letters.length == 1) {
+            gameWs.actions.sendAddLetter(letters);
           } else {
             console.error(
               "unexpected word change, expected length 0 or 1 but got",
-              letter,
+              letters,
             );
           }
         }}

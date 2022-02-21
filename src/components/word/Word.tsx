@@ -22,8 +22,6 @@ export default function Word(props: WordProps) {
       focus = props.enabled;
     }
 
-    // TODO: currently requires two backspaces for the last letter because of focus rules
-
     return (
       <Letter
         key={i}
