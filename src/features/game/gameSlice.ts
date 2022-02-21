@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { GameParameters } from "../../types/game";
-import {emptyLetters} from "./util";
+import { emptyLetters } from "./util";
 
 export interface GameSlice {
   params: GameParameters;
   currentLetters: string[];
   previousGuesses: string[];
   players: string[];
+  connected: boolean;
 }
 
 export interface GameGuessAction {
@@ -26,12 +27,16 @@ const initialState: GameSlice = {
   currentLetters: [" ", " ", " ", " ", " "],
   previousGuesses: [],
   players: [],
+  connected: false,
 };
 
 export const gameSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
+    setConnected: (state, action: PayloadAction<boolean>) => {
+      state.connected = action.payload;
+    },
     setParams: (state, action: PayloadAction<GameParameters>) => {
       state.params = action.payload;
       state.currentLetters = emptyLetters(state.params.wordLength);
@@ -55,7 +60,12 @@ export const gameSlice = createSlice({
   },
 });
 
-export const { setParams, setCurrentWord, setPlayers, submitGuess } =
-  gameSlice.actions;
+export const {
+  setConnected,
+  setParams,
+  setCurrentWord,
+  setPlayers,
+  submitGuess,
+} = gameSlice.actions;
 
 export default gameSlice.reducer;

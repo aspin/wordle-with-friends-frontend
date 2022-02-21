@@ -6,20 +6,16 @@ import Word from "../../components/word/Word";
 import { emptyLetters, splitLetters, unusedLetters } from "./util";
 import { GameWsContext } from "../../services/ws";
 
-interface GameProps {
-  sessionId: string;
-}
-
-export default function Game(props: GameProps) {
+export default function Game() {
   const gameState = useAppSelector((state) => state.game);
   const gameWs = useContext(GameWsContext);
 
   // TODO: need to test this
-  useEffect(() => {
-    return function () {
-      gameWs.actions.disconnect();
-    };
-  });
+  // useEffect(() => {
+  //   return function () {
+  //     gameWs.actions.disconnect();
+  //   };
+  // });
 
   function row(_value: undefined, i: number) {
     let text = emptyLetters(gameState.params.wordLength);
@@ -62,9 +58,9 @@ export default function Game(props: GameProps) {
 
   return (
     <div>
-      <h1>
-        SessionID: {props.sessionId}, Players: {gameState.players}
-      </h1>
+      <h2>
+        Players: {gameState.players}
+      </h2>
       <form onSubmit={submitGuess}>
         <Stack spacing={2}>
           {[...Array(gameState.params.maxGuesses)].map(row)}

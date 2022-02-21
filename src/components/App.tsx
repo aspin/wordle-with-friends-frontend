@@ -1,26 +1,15 @@
 import * as React from "react";
 import { hot } from "react-hot-loader";
 import "./../assets/scss/App.scss";
-import Game from "./../features/game/Game";
 import { Container } from "@mui/material";
-import GameWsProvider from "../services/ws";
-import { useNewSessionQuery } from "../services/session";
+import Selector from "../features/selector/Selector";
 
 function App() {
-  const { data, isLoading } = useNewSessionQuery();
-
-  let content;
-  if (isLoading) {
-    content = <h1>loading...</h1>;
-  } else {
-    content = (
-      <GameWsProvider sessionId={data.id}>
-        <Game sessionId={data.id} />
-      </GameWsProvider>
-    );
-  }
-
-  return <Container fixed>{content}</Container>;
+  return (
+    <Container fixed>
+      <Selector />
+    </Container>
+  );
 }
 
 declare let module: Record<string, unknown>;

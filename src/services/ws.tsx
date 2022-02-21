@@ -2,6 +2,7 @@ import * as React from "react";
 import { useAppDispatch } from "../hooks";
 import { handle } from "./wsHandlers";
 import { generateActions, WsActionsInterface } from "./wsActions";
+import { setConnected } from "../features/game/gameSlice";
 
 let ws;
 const wsPath = "ws://localhost:9000";
@@ -26,6 +27,9 @@ export default function GameWsProvider(props: GameWsProps) {
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       handle(dispatch, data);
+    };
+    ws.onclose = () => {
+      dispatch(setConnected(false));
     };
   }
 

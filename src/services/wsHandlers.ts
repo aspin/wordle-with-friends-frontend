@@ -1,5 +1,6 @@
 import { AppDispatch } from "../store";
 import {
+  setConnected,
   setCurrentWord,
   setParams,
   setPlayers,
@@ -26,6 +27,7 @@ interface ParamsUpdate {
 function handleParams(dispatch: AppDispatch, data: ParamsUpdate) {
   console.log("got a params update", data);
   dispatch(setParams(data));
+  dispatch(setConnected(true));
 }
 
 interface GameEvent {
