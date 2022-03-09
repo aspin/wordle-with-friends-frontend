@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Session from "../session/Session";
 import { Button, TextField } from "@mui/material";
 import { setSessionId } from "./selectorSlice";
@@ -13,8 +13,7 @@ export default function Selector() {
   // ready indicates if the game is ready to be rendered (e.g. any session ID has been selected)
   const [ready, setReady] = useState<boolean>(false);
 
-  // controls the value of the session Id input
-  const [wipSessionId, setWipSessionId] = useState<string>("");
+  let sessionIdInputRef;
 
   // prefill value if set from generation (but component should not be controlled)
   const selectorState = useAppSelector((state) => state.selector);
@@ -32,8 +31,16 @@ export default function Selector() {
     console.log("received new session", !skipQuery);
     dispatch(setSessionId(data.id));
     setGenerate(false);
-    setWipSessionId(data.id);
+
+    console.log(sessionIdInputRef);
   }
+
+  // TODO: see if can make stateful and stop focus hijacking?
+  useEffect(() => {
+    if (sessionId) {
+      sessionIdInputRef.value = sessionId;
+    }
+  });
 
   function connectSession(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -56,8 +63,7 @@ export default function Selector() {
         <TextField
           label="Session ID"
           id="session-id"
-          value={wipSessionId}
-          onChange={(e) => setWipSessionId(e.target.value)}
+          inputRef={(e) => (sessionIdInputRef = e)}
         />
         <Button type="submit">Connect</Button>
         <Button onClick={createSession}>Create New</Button>

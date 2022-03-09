@@ -6,7 +6,7 @@ import {
   setPlayers,
   submitGuess,
 } from "../features/game/gameSlice";
-import { splitLetters } from "../features/game/util";
+import { GameGuess, getLetters } from "../types/game";
 
 function handle(dispatch: AppDispatch, data: object) {
   // TODO: should really determine game params vs event better...
@@ -41,18 +41,18 @@ function handleEvent(dispatch: AppDispatch, data: GameEvent) {
   let letters;
   switch (data.event) {
     case "LETTER_ADDED":
-      letters = splitLetters(data.params as string);
+      letters = getLetters(data.params as GameGuess);
       dispatch(setCurrentWord({ letters }));
       break;
     case "LETTER_DELETED":
-      letters = splitLetters(data.params as string);
+      letters = getLetters(data.params as GameGuess);
       dispatch(setCurrentWord({ letters }));
       break;
     case "PLAYER_JOINED":
       dispatch(setPlayers(data.params as string[]));
       break;
     case "SUBMISSION_RESULT":
-      dispatch(submitGuess(data.params as string));
+      dispatch(submitGuess(getLetters(data.params as GameGuess).join("")));
       break;
   }
 }

@@ -59,7 +59,7 @@ export default function Game() {
   return (
     <div>
       <h2>
-        Players: {gameState.players}
+        Players: {gameState.players.join(", ")}
       </h2>
       <form onSubmit={submitGuess}>
         <Stack spacing={2}>
