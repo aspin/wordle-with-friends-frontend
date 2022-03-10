@@ -1,25 +1,29 @@
 import * as React from "react";
 import Letter from "../letter/Letter";
 import { Stack } from "@mui/material";
-import { GameGuessLetterState } from "../../types/game";
+import { GameGuessLetter } from "../../types/game";
 
 interface WordProps {
   enabled: boolean;
-  value: string[];
+  letters: GameGuessLetter[];
   width: number;
   onChange: (letter: string) => void;
 }
 
 export default function Word(props: WordProps) {
   function letter(_value: undefined, i: number) {
+
+    if (!props.letters[i]) {
+      debugger;
+    }
     // set focus on the first enabled empty spot
     let focus =
       props.enabled &&
-      props.value[i] == " " &&
-      (i == 0 || props.value[i - 1] != " ");
+      props.letters[i].letter == " " &&
+      (i == 0 || props.letters[i - 1].letter != " ");
 
     // if last letter and is filled (e.g. all letters filled), keep focused
-    if (i == props.value.length - 1 && props.value[i] != " ") {
+    if (i == props.letters.length - 1 && props.letters[i].letter != " ") {
       focus = props.enabled;
     }
 
@@ -27,8 +31,7 @@ export default function Word(props: WordProps) {
       <Letter
         key={i}
         enabled={focus}
-        value={props.value[i]}
-        valid={GameGuessLetterState.Unknown}
+        guess={props.letters[i]}
         focus={focus}
         onChange={(letter) => props.onChange(letter)}
       />

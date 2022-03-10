@@ -18,8 +18,16 @@ export interface GameGuessLetter {
   state: GameGuessLetterState;
 }
 
+export function emptyLetterGuess(): GameGuessLetter {
+  return {
+    letter: " ",
+    playerId: "",
+    state: GameGuessLetterState.Unknown,
+  };
+}
+
 export enum GameGuessLetterState {
-  Unknown,
+  Unknown = 1,
   Correct,
   Partial,
   Incorrect,

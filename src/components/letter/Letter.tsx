@@ -2,11 +2,10 @@ import * as React from "react";
 import { ChangeEvent, useEffect } from "react";
 import { TextField } from "@mui/material";
 import { lastLetter } from "../../features/game/util";
-import { GameGuessLetterState } from "../../types/game";
+import { GameGuessLetter, GameGuessLetterState } from "../../types/game";
 
 interface LetterProps {
-  value: string;
-  valid: GameGuessLetterState;
+  guess: GameGuessLetter;
   enabled: boolean;
   focus: boolean;
   onChange: (str) => void;
@@ -19,7 +18,7 @@ export default function Letter(props: LetterProps) {
 
   // TODO: use MUI colors https://mui.com/customization/color/
   let borderColor = "grey";
-  switch (props.valid) {
+  switch (props.guess.state) {
     case GameGuessLetterState.Correct:
       borderColor = "green";
       break;
@@ -34,7 +33,7 @@ export default function Letter(props: LetterProps) {
   let inputRef;
   const tf = (
     <TextField
-      value={props.value.toUpperCase()}
+      value={props.guess.letter.toUpperCase()}
       disabled={!props.enabled}
       inputRef={(e) => (inputRef = e)}
       onChange={onChange}

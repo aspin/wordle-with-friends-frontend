@@ -1,10 +1,12 @@
 import * as React from "react";
-import { ChangeEvent, useContext, useEffect } from "react";
+import { ChangeEvent, useContext } from "react";
 import { useAppSelector } from "../../hooks";
 import { Button, Stack } from "@mui/material";
 import Word from "../../components/word/Word";
-import { emptyLetters, splitLetters, unusedLetters } from "./util";
+import { unusedLetters } from "./util";
 import { GameWsContext } from "../../services/ws";
+import { emptyLetterGuess } from "../../types/game";
+import * as _ from "lodash";
 
 export default function Game() {
   const gameState = useAppSelector((state) => state.game);
@@ -18,18 +20,18 @@ export default function Game() {
   // });
 
   function row(_value: undefined, i: number) {
-    let text = emptyLetters(gameState.params.wordLength);
+    let letters = _.times(gameState.params.wordLength, emptyLetterGuess);
     if (i < gameState.previousGuesses.length) {
-      text = splitLetters(gameState.previousGuesses[i]);
+      letters = gameState.previousGuesses[i];
     } else if (i == gameState.previousGuesses.length) {
-      text = gameState.currentLetters;
+      letters = gameState.currentLetters;
     }
 
     return (
       <Word
         key={i}
         enabled={gameState.previousGuesses.length == i}
-        value={text}
+        letters={letters}
         width={gameState.params.wordLength}
         onChange={(letters) => {
           if (letters.length == 0) {
@@ -56,11 +58,17 @@ export default function Game() {
     }
   }
 
+  const unusedGuessLetters = unusedLetters(
+    _.flatten(
+      gameState.previousGuesses.map((letterGuesses) =>
+        letterGuesses.map((lg) => lg.letter),
+      ),
+    ),
+  );
+
   return (
     <div>
-      <h2>
-        Players: {gameState.players.join(", ")}
-      </h2>
+      <h2>Players: {gameState.players.join(", ")}</h2>
       <form onSubmit={submitGuess}>
         <Stack spacing={2}>
           {[...Array(gameState.params.maxGuesses)].map(row)}
@@ -69,7 +77,7 @@ export default function Game() {
           Submit Guess
         </Button>
       </form>
-      unused letters: {unusedLetters(gameState.previousGuesses)}
+      unused letters: {unusedGuessLetters}
     </div>
   );
 }

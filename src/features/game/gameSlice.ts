@@ -1,11 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GameParameters } from "../../types/game";
-import { emptyLetters } from "./util";
+import {
+  emptyLetterGuess,
+  GameGuess,
+  GameGuessLetter,
+  GameParameters,
+} from "../../types/game";
+import * as _ from "lodash";
 
 export interface GameSlice {
   params: GameParameters;
-  currentLetters: string[];
-  previousGuesses: string[];
+  currentLetters: GameGuessLetter[];
+  previousGuesses: GameGuessLetter[][];
   players: string[];
   connected: boolean;
 }
@@ -15,16 +20,12 @@ export interface GameGuessAction {
   letter: string;
 }
 
-export interface GameGuessUpdate {
-  letters: string[];
-}
-
 const initialState: GameSlice = {
   params: {
     maxGuesses: 5,
     wordLength: 5,
   },
-  currentLetters: [" ", " ", " ", " ", " "],
+  currentLetters: _.times(5, emptyLetterGuess),
   previousGuesses: [],
   players: [],
   connected: false,
@@ -39,12 +40,12 @@ export const gameSlice = createSlice({
     },
     setParams: (state, action: PayloadAction<GameParameters>) => {
       state.params = action.payload;
-      state.currentLetters = emptyLetters(state.params.wordLength);
+      state.currentLetters = _.times(state.params.wordLength, emptyLetterGuess);
     },
-    setCurrentWord: (state, action: PayloadAction<GameGuessUpdate>) => {
+    setCurrentWord: (state, action: PayloadAction<GameGuess>) => {
       for (let i = 0; i < state.currentLetters.length; i++) {
         if (i >= action.payload.letters.length) {
-          state.currentLetters[i] = " ";
+          state.currentLetters[i] = emptyLetterGuess();
         } else {
           state.currentLetters[i] = action.payload.letters[i];
         }
@@ -53,9 +54,9 @@ export const gameSlice = createSlice({
     setPlayers: (state, action: PayloadAction<string[]>) => {
       state.players = action.payload;
     },
-    submitGuess: (state, action: PayloadAction<string>) => {
+    submitGuess: (state, action: PayloadAction<GameGuessLetter[]>) => {
       state.previousGuesses.push(action.payload);
-      state.currentLetters = emptyLetters(state.params.wordLength);
+      state.currentLetters = _.times(state.params.wordLength, emptyLetterGuess);
     },
   },
 });
