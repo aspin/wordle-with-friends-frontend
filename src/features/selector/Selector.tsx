@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ChangeEvent, useEffect, useState } from "react";
 import Session from "../session/Session";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import { setSessionId } from "./selectorSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useNewSessionQuery } from "../../services/session";
@@ -52,38 +52,53 @@ export default function Selector() {
   function content() {
     if (isLoading || !ready) {
       return (
-        <Grid item xs={12}>
-          <form onSubmit={connectSession}>
-            <Grid container>
-              <Grid item xs={6}>
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid item xs={3}>
+            <Box component="form" onSubmit={connectSession} autoComplete="off">
+              <Stack spacing={2}>
                 <TextField
                   label="Username"
                   id="username"
-                  defaultValue={" "} // default value to keep label floating
+                  sx={{
+                    width: "100%",
+                  }}
                 />
-              </Grid>
-              <Grid item xs={6}>
                 <TextField
                   label="Session ID"
                   id="session-id"
                   inputRef={(e) => (sessionIdInputRef = e)}
-                  defaultValue={" "} // default value to keep label floating
+                  sx={{
+                    width: "100%",
+                  }}
                 />
-              </Grid>
-              <Grid item xs={12}>
-                <Button type="submit">Connect</Button>
-                <Button onClick={createSession}>Create New</Button>
-              </Grid>
-            </Grid>
-          </form>
+                <Grid container>
+                  <Grid item xs={6} sx={{ pr: 1 }}>
+                    <Button
+                      variant="contained"
+                      type="submit"
+                      sx={{ width: "100%" }}
+                    >
+                      Connect
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6} sx={{ pl: 1 }}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={createSession}
+                      sx={{ width: "100%" }}
+                    >
+                      Create New
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Stack>
+            </Box>
+          </Grid>
         </Grid>
       );
     } else {
-      return (
-        <Grid item xs={12}>
-          <Session loading={false} sessionId={sessionId} />
-        </Grid>
-      );
+      return <Session loading={false} sessionId={sessionId} />;
     }
   }
 
@@ -94,7 +109,9 @@ export default function Selector() {
           fwordle
         </Typography>
       </Grid>
-      {content()}
+      <Grid item xs={12}>
+        {content()}
+      </Grid>
     </Grid>
   );
 }
