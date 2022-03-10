@@ -1,12 +1,13 @@
 import * as React from "react";
 import { ChangeEvent, useContext } from "react";
 import { useAppSelector } from "../../hooks";
-import { Button, Stack } from "@mui/material";
+import { Button, Grid, Stack } from "@mui/material";
 import Word from "../../components/word/Word";
 import { unusedLetters } from "./util";
 import { GameWsContext } from "../../services/ws";
 import { emptyLetterGuess } from "../../types/game";
 import * as _ from "lodash";
+import PlayerList from "../../components/player_list/PlayerList";
 
 export default function Game() {
   const gameState = useAppSelector((state) => state.game);
@@ -69,17 +70,21 @@ export default function Game() {
   );
 
   return (
-    <div>
-      <h2>Players: {gameState.players.join(", ")}</h2>
-      <form onSubmit={submitGuess}>
-        <Stack spacing={2}>
-          {[...Array(gameState.params.maxGuesses)].map(row)}
-        </Stack>
-        <Button type="submit" variant="outlined">
-          Submit Guess
-        </Button>
-      </form>
-      unused letters: {unusedGuessLetters}
-    </div>
+    <Grid container spacing={4}>
+      <Grid item xs={8}>
+        <form onSubmit={submitGuess}>
+          <Stack spacing={2}>
+            {[...Array(gameState.params.maxGuesses)].map(row)}
+          </Stack>
+          <Button type="submit" variant="outlined">
+            Submit Guess
+          </Button>
+        </form>
+        unused letters: {unusedGuessLetters}
+      </Grid>
+      <Grid item xs>
+        <PlayerList players={gameState.players} />
+      </Grid>
+    </Grid>
   );
 }

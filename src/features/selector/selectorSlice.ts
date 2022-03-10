@@ -13,7 +13,6 @@ export const selectorSlice = createSlice({
   initialState,
   reducers: {
     setSessionId: (state, action: PayloadAction<string>) => {
-      console.log("setting session ID??", action.payload);
       state.sessionId = action.payload;
     },
   },

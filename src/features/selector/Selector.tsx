@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ChangeEvent, useEffect, useState } from "react";
 import Session from "../session/Session";
-import { Button, TextField } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import { setSessionId } from "./selectorSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useNewSessionQuery } from "../../services/session";
@@ -32,7 +32,7 @@ export default function Selector() {
   }
 
   useEffect(() => {
-    if (sessionId) {
+    if (sessionId && sessionIdInputRef) {
       sessionIdInputRef.value = sessionId;
     }
   });
@@ -49,20 +49,52 @@ export default function Selector() {
     setGenerate(true);
   }
 
+  function content() {
+    if (isLoading || !ready) {
+      return (
+        <Grid item xs={12}>
+          <form onSubmit={connectSession}>
+            <Grid container>
+              <Grid item xs={6}>
+                <TextField
+                  label="Username"
+                  id="username"
+                  defaultValue={" "} // default value to keep label floating
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  label="Session ID"
+                  id="session-id"
+                  inputRef={(e) => (sessionIdInputRef = e)}
+                  defaultValue={" "} // default value to keep label floating
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button type="submit">Connect</Button>
+                <Button onClick={createSession}>Create New</Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Grid>
+      );
+    } else {
+      return (
+        <Grid item xs={12}>
+          <Session loading={false} sessionId={sessionId} />
+        </Grid>
+      );
+    }
+  }
+
   return (
-    <div>
-      <h1>Wordle With Friends</h1>
-      <form onSubmit={connectSession}>
-        <TextField
-          label="Session ID"
-          id="session-id"
-          inputRef={(e) => (sessionIdInputRef = e)}
-          defaultValue={" "} // default value to keep label floating
-        />
-        <Button type="submit">Connect</Button>
-        <Button onClick={createSession}>Create New</Button>
-      </form>
-      <Session loading={isLoading || !ready} sessionId={sessionId} />
-    </div>
+    <Grid container rowSpacing={4}>
+      <Grid item xs={12}>
+        <Typography variant="h1" sx={{ textAlign: "center" }}>
+          fwordle
+        </Typography>
+      </Grid>
+      {content()}
+    </Grid>
   );
 }
