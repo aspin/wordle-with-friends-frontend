@@ -2,7 +2,7 @@ import * as React from "react";
 import { ChangeEvent, useEffect } from "react";
 import { TextField } from "@mui/material";
 import { lastLetter } from "../../features/game/util";
-import { GameGuessLetter, GameGuessLetterState } from "../../types/game";
+import { GameGuessLetter, StateColorMapping } from "../../types/game";
 
 interface LetterProps {
   guess: GameGuessLetter;
@@ -16,19 +16,7 @@ export default function Letter(props: LetterProps) {
     props.onChange(lastLetter(e.target.value));
   }
 
-  // TODO: use MUI colors https://mui.com/customization/color/
-  let borderColor = "grey";
-  switch (props.guess.state) {
-    case GameGuessLetterState.Correct:
-      borderColor = "green";
-      break;
-    case GameGuessLetterState.Incorrect:
-      borderColor = "red";
-      break;
-    case GameGuessLetterState.Partial:
-      borderColor = "yellow";
-      break;
-  }
+  const borderColor = StateColorMapping[props.guess.state];
 
   let inputRef;
   const tf = (
@@ -42,6 +30,7 @@ export default function Letter(props: LetterProps) {
         "& .MuiOutlinedInput-root.Mui-disabled": {
           "& fieldset": {
             borderColor,
+            borderWidth: 2,
           },
         },
       }}

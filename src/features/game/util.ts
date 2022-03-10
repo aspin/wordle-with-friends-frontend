@@ -1,3 +1,5 @@
+import { GameGuessLetters, GameGuessLetterState } from "../../types/game";
+
 const alphabet = [
   "A",
   "B",
@@ -26,6 +28,31 @@ const alphabet = [
   "Y",
   "Z",
 ];
+
+export function letterStates(
+  guesses: GameGuessLetters[],
+): Map<string, GameGuessLetterState> {
+  const map = new Map();
+  for (const letter of alphabet) {
+    map[letter] = GameGuessLetterState.Unknown;
+  }
+
+  for (const guess of guesses) {
+    for (const lg of guess) {
+      const guessedLetter = lg.letter.toUpperCase();
+      if (map[guessedLetter] == GameGuessLetterState.Unknown) {
+        // if unknown, always update
+        map[guessedLetter] = lg.state;
+      } else if (map[guessedLetter] < lg.state) {
+        // otherwise, only update if stored state is > that previous
+        // this means that CORRECT can not be overridden by PARTIAL or INCORRECT
+        map[guessedLetter] = lg.state;
+      }
+    }
+  }
+
+  return map;
+}
 
 export function unusedLetters(words: string[]): string[] {
   const remaining = {};
