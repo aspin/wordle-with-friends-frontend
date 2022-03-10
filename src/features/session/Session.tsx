@@ -5,6 +5,7 @@ import * as React from "react";
 interface SessionProps {
   loading: boolean;
   sessionId: string;
+  disconnect: () => void;
 }
 
 export default function Session(props: SessionProps) {
@@ -14,7 +15,7 @@ export default function Session(props: SessionProps) {
   } else {
     content = (
       <GameWsProvider sessionId={props.sessionId}>
-        <Game />
+        <Game sessionId={props.sessionId} disconnect={props.disconnect} />
       </GameWsProvider>
     );
   }

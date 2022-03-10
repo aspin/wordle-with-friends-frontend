@@ -41,6 +41,11 @@ export default function Selector() {
     setGenerate(true);
   }
 
+  function disconnect() {
+    setReady(false);
+    setGenerate(false);
+  }
+
   function content() {
     if (isLoading || !ready) {
       return (
@@ -51,7 +56,13 @@ export default function Selector() {
         />
       );
     } else {
-      return <Session loading={false} sessionId={sessionId} />;
+      return (
+        <Session
+          loading={false}
+          sessionId={sessionId}
+          disconnect={disconnect}
+        />
+      );
     }
   }
 

@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Avatar,
+  Box,
   Divider,
   List,
   ListItem,
@@ -40,12 +41,11 @@ export default function PlayerList(props: PlayerListProps) {
   }
 
   return (
-    <div>
+    <Box>
       <Typography variant="h4" sx={{ textAlign: "center" }}>
         Players
       </Typography>
       <List>{props.players.map(player)}</List>
-    </div>
+    </Box>
   );
 }
-
