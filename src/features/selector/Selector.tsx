@@ -1,11 +1,12 @@
 import * as React from "react";
 import { useState } from "react";
-import Session from "../session/Session";
 import { Grid, Typography } from "@mui/material";
 import { setSessionId } from "./selectorSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useNewSessionQuery } from "../../services/session";
 import SessionConnector from "../../components/session_connector/SessionConnector";
+import GameWsProvider from "../../services/ws";
+import Game from "../game/Game";
 
 export default function Selector() {
   // generate indicates if a new session ID should be generated
@@ -57,11 +58,9 @@ export default function Selector() {
       );
     } else {
       return (
-        <Session
-          loading={false}
-          sessionId={sessionId}
-          disconnect={disconnect}
-        />
+        <GameWsProvider sessionId={sessionId}>
+          <Game sessionId={sessionId} disconnect={disconnect} />
+        </GameWsProvider>
       );
     }
   }
