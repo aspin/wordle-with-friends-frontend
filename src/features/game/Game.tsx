@@ -1,13 +1,14 @@
 import * as React from "react";
 import { ChangeEvent, useContext } from "react";
 import { useAppSelector } from "../../hooks";
-import { Button, Grid, Stack } from "@mui/material";
+import { Box, Button, Grid, Stack } from "@mui/material";
 import Word from "../../components/word/Word";
 import { unusedLetters } from "./util";
 import { GameWsContext } from "../../services/ws";
 import { emptyLetterGuess } from "../../types/game";
 import * as _ from "lodash";
 import Sidebar from "../../components/sidebar/Sidebar";
+import Keyboard from "../../components/keyboard/Keyboard";
 
 interface GameProps {
   sessionId: string;
@@ -75,15 +76,16 @@ export default function Game(props: GameProps) {
   return (
     <Grid container spacing={4}>
       <Grid item xs={8}>
-        <form onSubmit={submitGuess}>
-          <Stack spacing={2}>
-            {[...Array(gameState.params.maxGuesses)].map(row)}
+        <Box component="form" onSubmit={submitGuess} autoComplete="off">
+          <Stack spacing={4}>
+            <Stack spacing={2}>
+              {[...Array(gameState.params.maxGuesses)].map(row)}
+            </Stack>
+            {/*submit button only to enable Enter submitting*/}
+            <Button type="submit" variant="outlined" sx={{ display: "none" }} />
+            <Keyboard guesses={gameState.previousGuesses} />
           </Stack>
-          <Button type="submit" variant="outlined">
-            Submit Guess
-          </Button>
-        </form>
-        unused letters: {unusedGuessLetters}
+        </Box>
       </Grid>
       <Grid item xs>
         <Sidebar
