@@ -17,9 +17,9 @@ interface PlayerListProps {
 
 export default function PlayerList(props: PlayerListProps) {
   function player(_value: string, i: number) {
-    let divider = <Divider />;
-    if (i == props.players.length - 1) {
-      divider = undefined;
+    let divider;
+    if (i != props.players.length - 1) {
+      divider = <Divider />;
     }
 
     return (

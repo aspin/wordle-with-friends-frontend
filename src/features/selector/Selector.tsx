@@ -52,7 +52,7 @@ export default function Selector() {
       return (
         <SessionConnector
           connect={connectSession}
-          createSession={createSession}
+          create={createSession}
           sessionId={sessionId}
         />
       );

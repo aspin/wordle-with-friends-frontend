@@ -4,12 +4,12 @@ import { Box, Button, Grid, Stack, TextField } from "@mui/material";
 
 interface SessionConnectorProps {
   connect: (string) => void;
-  createSession: () => void;
+  create: () => void;
   sessionId: string;
 }
 
 export default function SessionConnector(props: SessionConnectorProps) {
-  function connectSession(e: ChangeEvent<HTMLFormElement>) {
+  function connect(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
     props.connect(e.target["session-id"].value);
   }
@@ -17,7 +17,7 @@ export default function SessionConnector(props: SessionConnectorProps) {
   return (
     <Grid container justifyContent="center" alignItems="center">
       <Grid item xs={3}>
-        <Box component="form" onSubmit={connectSession} autoComplete="off">
+        <Box component="form" onSubmit={connect} autoComplete="off">
           <Stack spacing={2}>
             <TextField
               label="Username"
@@ -48,7 +48,7 @@ export default function SessionConnector(props: SessionConnectorProps) {
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={props.createSession}
+                  onClick={props.create}
                   sx={{ width: "100%" }}
                 >
                   Create New
