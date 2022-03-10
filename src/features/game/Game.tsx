@@ -3,7 +3,6 @@ import { ChangeEvent, useContext } from "react";
 import { useAppSelector } from "../../hooks";
 import { Box, Button, Grid, Stack } from "@mui/material";
 import Word from "../../components/word/Word";
-import { unusedLetters } from "./util";
 import { GameWsContext } from "../../services/ws";
 import { emptyLetterGuess } from "../../types/game";
 import * as _ from "lodash";
@@ -64,14 +63,6 @@ export default function Game(props: GameProps) {
       gameWs.actions.submitGuess();
     }
   }
-
-  const unusedGuessLetters = unusedLetters(
-    _.flatten(
-      gameState.previousGuesses.map((letterGuesses) =>
-        letterGuesses.map((lg) => lg.letter),
-      ),
-    ),
-  );
 
   return (
     <Grid container spacing={4}>

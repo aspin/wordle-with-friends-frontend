@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GameGuessLetters, GameGuessLetterState } from "../../types/game";
+import {GameGuessLetters, GameGuessLetterState, StateColorMapping} from "../../types/game";
 import { Button, Stack } from "@mui/material";
 import { letterStates } from "../../features/game/util";
 
@@ -12,13 +12,6 @@ const qwerty = [
   ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
   ["Z", "X", "C", "V", "B", "N", "M"],
 ];
-
-const stateColorMapping = {
-  [GameGuessLetterState.Unknown]: "primary",
-  [GameGuessLetterState.Correct]: "success",
-  [GameGuessLetterState.Partial]: "warning",
-  [GameGuessLetterState.Incorrect]: "error",
-};
 
 export default function Keyboard(props: KeyboardProps) {
   const ls = letterStates(props.guesses);
@@ -38,15 +31,20 @@ export default function Keyboard(props: KeyboardProps) {
   }
 
   function button(letter: string) {
-    let variant = "outlined";
+    let variant: "outlined" | "contained" = "outlined";
     if (ls[letter] != GameGuessLetterState.Unknown) {
       variant = "contained";
     }
+
+    const backgroundColor = StateColorMapping[ls[letter]];
+
     return (
       <Button
         key={letter}
         variant={variant}
-        color={stateColorMapping[ls[letter]]}
+        sx={{
+          backgroundColor,
+        }}
       >
         {letter}
       </Button>

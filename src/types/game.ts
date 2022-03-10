@@ -1,3 +1,5 @@
+import { green, red, yellow } from "@mui/material/colors";
+
 export interface GameParameters {
   maxGuesses: number;
   wordLength: number;
@@ -34,6 +36,12 @@ export enum GameGuessLetterState {
   Partial,
   Incorrect,
 }
+
+export const StateColorMapping = {
+  [GameGuessLetterState.Correct]: green[800],
+  [GameGuessLetterState.Partial]: yellow[500],
+  [GameGuessLetterState.Incorrect]: red[700],
+};
 
 export function getLetters(gameGuess: GameGuess): string[] {
   return gameGuess.letters.map((lg) => lg.letter);
