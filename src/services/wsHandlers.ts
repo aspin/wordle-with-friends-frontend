@@ -47,7 +47,7 @@ function handleEvent(dispatch: AppDispatch, data: GameEvent) {
       guess = data.params as GameGuess;
       dispatch(setCurrentWord(guess.letters));
       break;
-    case "PLAYER_JOINED":
+    case "PLAYER_CHANGED":
       dispatch(setPlayers(data.params as string[]));
       break;
     case "SUBMISSION_RESULT":

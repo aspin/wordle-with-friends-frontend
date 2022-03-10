@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
   Avatar,
+  Box,
   Divider,
   List,
   ListItem,
@@ -16,9 +17,9 @@ interface PlayerListProps {
 
 export default function PlayerList(props: PlayerListProps) {
   function player(_value: string, i: number) {
-    let divider = <Divider />;
-    if (i == props.players.length - 1) {
-      divider = undefined;
+    let divider;
+    if (i != props.players.length - 1) {
+      divider = <Divider />;
     }
 
     return (
@@ -40,12 +41,11 @@ export default function PlayerList(props: PlayerListProps) {
   }
 
   return (
-    <div>
+    <Box>
       <Typography variant="h4" sx={{ textAlign: "center" }}>
         Players
       </Typography>
       <List>{props.players.map(player)}</List>
-    </div>
+    </Box>
   );
 }
-

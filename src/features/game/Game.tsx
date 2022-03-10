@@ -7,18 +7,21 @@ import { unusedLetters } from "./util";
 import { GameWsContext } from "../../services/ws";
 import { emptyLetterGuess } from "../../types/game";
 import * as _ from "lodash";
-import PlayerList from "../../components/player_list/PlayerList";
+import Sidebar from "../../components/sidebar/Sidebar";
 
-export default function Game() {
+interface GameProps {
+  sessionId: string;
+  disconnect: () => void;
+}
+
+export default function Game(props: GameProps) {
   const gameState = useAppSelector((state) => state.game);
   const gameWs = useContext(GameWsContext);
 
-  // TODO: need to test this
-  // useEffect(() => {
-  //   return function () {
-  //     gameWs.actions.disconnect();
-  //   };
-  // });
+  function disconnect() {
+    gameWs.actions.disconnect();
+    props.disconnect();
+  }
 
   function row(_value: undefined, i: number) {
     let letters = _.times(gameState.params.wordLength, emptyLetterGuess);
@@ -83,7 +86,11 @@ export default function Game() {
         unused letters: {unusedGuessLetters}
       </Grid>
       <Grid item xs>
-        <PlayerList players={gameState.players} />
+        <Sidebar
+          players={gameState.players}
+          sessionId={props.sessionId}
+          disconnect={disconnect}
+        />
       </Grid>
     </Grid>
   );
