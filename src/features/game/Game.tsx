@@ -52,8 +52,10 @@ export default function Game() {
   function submitGuess(e: ChangeEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // double check this? arent they all empty strings?
-    if (gameState.currentLetters.length == gameState.params.wordLength) {
+    if (
+      gameState.currentLetters.filter((lg) => lg.letter != " ").length ==
+      gameState.params.wordLength
+    ) {
       gameWs.actions.submitGuess();
     }
   }

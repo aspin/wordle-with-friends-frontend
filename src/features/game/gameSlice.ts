@@ -1,16 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   emptyLetterGuess,
-  GameGuess,
-  GameGuessLetter,
+  GameGuessLetters,
   GameParameters,
 } from "../../types/game";
 import * as _ from "lodash";
 
 export interface GameSlice {
   params: GameParameters;
-  currentLetters: GameGuessLetter[];
-  previousGuesses: GameGuessLetter[][];
+  currentLetters: GameGuessLetters;
+  previousGuesses: GameGuessLetters[];
   players: string[];
   connected: boolean;
 }
@@ -42,19 +41,19 @@ export const gameSlice = createSlice({
       state.params = action.payload;
       state.currentLetters = _.times(state.params.wordLength, emptyLetterGuess);
     },
-    setCurrentWord: (state, action: PayloadAction<GameGuess>) => {
+    setCurrentWord: (state, action: PayloadAction<GameGuessLetters>) => {
       for (let i = 0; i < state.currentLetters.length; i++) {
-        if (i >= action.payload.letters.length) {
+        if (i >= action.payload.length) {
           state.currentLetters[i] = emptyLetterGuess();
         } else {
-          state.currentLetters[i] = action.payload.letters[i];
+          state.currentLetters[i] = action.payload[i];
         }
       }
     },
     setPlayers: (state, action: PayloadAction<string[]>) => {
       state.players = action.payload;
     },
-    submitGuess: (state, action: PayloadAction<GameGuessLetter[]>) => {
+    submitGuess: (state, action: PayloadAction<GameGuessLetters>) => {
       state.previousGuesses.push(action.payload);
       state.currentLetters = _.times(state.params.wordLength, emptyLetterGuess);
     },

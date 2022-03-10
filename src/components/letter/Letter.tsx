@@ -33,6 +33,7 @@ export default function Letter(props: LetterProps) {
   let inputRef;
   const tf = (
     <TextField
+      label={props.guess.playerId}
       value={props.guess.letter.toUpperCase()}
       disabled={!props.enabled}
       inputRef={(e) => (inputRef = e)}

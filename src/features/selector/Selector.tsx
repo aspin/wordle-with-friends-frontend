@@ -22,20 +22,15 @@ export default function Selector() {
   const sessionId = selectorState.sessionId;
 
   const skipQuery = !(generate && ready);
-  console.log("requesting new session", !skipQuery);
   const { data, isLoading } = useNewSessionQuery(undefined, {
     skip: skipQuery,
   });
 
   if (data) {
-    console.log("received new session", !skipQuery);
     dispatch(setSessionId(data.id));
     setGenerate(false);
-
-    console.log(sessionIdInputRef);
   }
 
-  // TODO: see if can make stateful and stop focus hijacking?
   useEffect(() => {
     if (sessionId) {
       sessionIdInputRef.value = sessionId;
@@ -54,8 +49,6 @@ export default function Selector() {
     setGenerate(true);
   }
 
-  console.log("rendering game:", ready, "with session:", sessionId);
-
   return (
     <div>
       <h1>Wordle With Friends</h1>
@@ -64,6 +57,7 @@ export default function Selector() {
           label="Session ID"
           id="session-id"
           inputRef={(e) => (sessionIdInputRef = e)}
+          defaultValue={" "} // default value to keep label floating
         />
         <Button type="submit">Connect</Button>
         <Button onClick={createSession}>Create New</Button>

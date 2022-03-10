@@ -9,8 +9,10 @@ export interface Session {
 }
 
 export interface GameGuess {
-  letters: GameGuessLetter[];
+  letters: GameGuessLetters;
 }
+
+export type GameGuessLetters = GameGuessLetter[];
 
 export interface GameGuessLetter {
   letter: string;

@@ -44,6 +44,7 @@ function sendEvent(ws: WebSocket, e: object) {
   // if (ws.readyState != WebSocket.OPEN) {
   //   return;
   // }
+  console.log("submitting event to server", e);
   ws.send(JSON.stringify(e));
 }
 

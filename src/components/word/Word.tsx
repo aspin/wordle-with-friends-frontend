@@ -1,18 +1,17 @@
 import * as React from "react";
 import Letter from "../letter/Letter";
 import { Stack } from "@mui/material";
-import { GameGuessLetter } from "../../types/game";
+import { GameGuessLetters } from "../../types/game";
 
 interface WordProps {
   enabled: boolean;
-  letters: GameGuessLetter[];
+  letters: GameGuessLetters;
   width: number;
   onChange: (letter: string) => void;
 }
 
 export default function Word(props: WordProps) {
   function letter(_value: undefined, i: number) {
-
     if (!props.letters[i]) {
       debugger;
     }

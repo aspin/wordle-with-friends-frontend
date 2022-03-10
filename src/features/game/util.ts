@@ -35,8 +35,9 @@ export function unusedLetters(words: string[]): string[] {
 
   for (const word of words) {
     for (const letter of word) {
-      if (letter in remaining) {
-        delete remaining[letter];
+      const normalizedLetter = letter.toUpperCase();
+      if (normalizedLetter in remaining) {
+        delete remaining[normalizedLetter];
       }
 
       if (Object.keys(remaining).length == 0) {

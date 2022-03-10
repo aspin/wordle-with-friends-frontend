@@ -25,7 +25,6 @@ interface ParamsUpdate {
 }
 
 function handleParams(dispatch: AppDispatch, data: ParamsUpdate) {
-  console.log("got a params update", data);
   dispatch(setParams(data));
   dispatch(setConnected(true));
 }
@@ -42,11 +41,11 @@ function handleEvent(dispatch: AppDispatch, data: GameEvent) {
   switch (data.event) {
     case "LETTER_ADDED":
       guess = data.params as GameGuess;
-      dispatch(setCurrentWord(guess));
+      dispatch(setCurrentWord(guess.letters));
       break;
     case "LETTER_DELETED":
       guess = data.params as GameGuess;
-      dispatch(setCurrentWord(guess));
+      dispatch(setCurrentWord(guess.letters));
       break;
     case "PLAYER_JOINED":
       dispatch(setPlayers(data.params as string[]));
