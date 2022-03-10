@@ -1,6 +1,7 @@
 import * as React from "react";
-import Letter, { Validity } from "../letter/Letter";
+import Letter from "../letter/Letter";
 import { Stack } from "@mui/material";
+import { GameGuessLetterState } from "../../types/game";
 
 interface WordProps {
   enabled: boolean;
@@ -27,7 +28,7 @@ export default function Word(props: WordProps) {
         key={i}
         enabled={focus}
         value={props.value[i]}
-        valid={Validity.Unknown}
+        valid={GameGuessLetterState.Unknown}
         focus={focus}
         onChange={(letter) => props.onChange(letter)}
       />

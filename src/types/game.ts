@@ -8,19 +8,21 @@ export interface Session {
   players: string[];
 }
 
+export interface GameGuess {
+  letters: GameGuessLetter[];
+}
+
+export interface GameGuessLetter {
+  letter: string;
+  playerId: string;
+  state: GameGuessLetterState;
+}
+
 export enum GameGuessLetterState {
   Unknown,
   Correct,
   Partial,
   Incorrect,
-}
-
-export interface GameGuess {
-  letters: {
-    letter: string;
-    playerId: string;
-    state: GameGuessLetterState;
-  }[];
 }
 
 export function getLetters(gameGuess: GameGuess): string[] {
