@@ -18,7 +18,6 @@ export default function Game(props: GameProps) {
   const gameState = useAppSelector((state) => state.game);
   const gameWs = useContext(GameWsContext);
 
-  // TODO: still need autodisconnect on page close/refresh?
   function disconnect() {
     gameWs.actions.disconnect();
     props.disconnect();
